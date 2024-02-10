@@ -61,7 +61,7 @@ with zipfile.ZipFile(args.input_path) as archive:
                 # search hashtags
                 for hashtag in hashtags:
                     lang = tweet['lang']
-                    if place is None:
+                    if tweet['place'] is None:
                         country = "NA"
                     else:
                         country = tweet['country_code']
