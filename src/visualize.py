@@ -39,7 +39,7 @@ numDatapoints = len(topKeys)
 # build horizontal bar chart for .lang files
 fig, ax = plt.subplots()
 
-if 'lang' in args.input_path:
+if args.input_path == 'reduced.lang':
     ax.barh(range(numDatapoints), topValues, align='center')
     ax.set_yticks(range(numDatapoints))
     ax.set_yticklabels(topKeys)
@@ -47,7 +47,7 @@ if 'lang' in args.input_path:
     ax.set_title('Instances of '#coronavirus' per language')
 
 # build horizontal bar chart for .country_code files
-if 'country_code' in args.input_path:
+elif args.input_path == 'reduced.country_code':
     ax.barh(range(numDatapoints), topValues, align='center')
     ax.set_yticks(range(numDatapoints))
     ax.set_yticklabels(topKeys)
