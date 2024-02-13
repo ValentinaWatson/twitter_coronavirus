@@ -12,6 +12,7 @@ args = parser.parse_args()
 import os
 import json
 from collections import Counter,defaultdict
+import matplotlib.pyplot as plt
 
 # open the input path
 with open(args.input_path) as f:
@@ -33,11 +34,22 @@ topValues = []
 for key, value in items[:10]:
     topKeys.append(key)
     topValues.append(value)
+numDatapoints = len(topKeys)
 
-# build horizontal bar chart
-ax.barh(topKeys, topValues, xerr=error, align='center')
-ax.set_yticks(len(topKeys))
-ax.set_yticklabels(topKeys)
-ax.invert_yaxis()  # labels read top-to-bottom
-ax.set_xlabel('Values')
-ax.set_title('Coronavirus')
+# build horizontal bar chart for .lang files
+fig, ax = plt.subplots()
+
+if '.lang' in args.input_path:
+    ax.barh(range(numDatapoints), topValues, align='center')
+    ax.set_yticks(range(numDatapoints), labels=topKeys)
+    ax.set_xlabel('Number of Instances')
+    ax.set_title('Instances of '#coronavirus' per language')
+
+# build horizontal bar chart for .country_code files
+if '.country_code' in args.input_path:
+    ax.barh(range(numDatapoints), topValues, align='center')
+    ax.set_yticks(range(numDatapoints), labels=topKeys)
+    ax.set_xlabel('Number of Instances')
+    ax.set_title('Instances of '#coronavirus' per country')
+
+plt.show()
