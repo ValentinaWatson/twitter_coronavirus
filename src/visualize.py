@@ -26,3 +26,18 @@ if args.percent:
 items = sorted(counts[args.key].items(), key=lambda item: (item[1],item[0]), reverse=True)
 for k,v in items:
     print(k,':',v)
+
+# get top 10 keys and values separately
+topKeys = []
+topValues = []
+for key, value in items[:10]:
+    topKeys.append(key)
+    topValues.append(value)
+
+# build horizontal bar chart
+ax.barh(topKeys, topValues, xerr=error, align='center')
+ax.set_yticks(len(topKeys))
+ax.set_yticklabels(topKeys)
+ax.invert_yaxis()  # labels read top-to-bottom
+ax.set_xlabel('Values')
+ax.set_title('Coronavirus')
