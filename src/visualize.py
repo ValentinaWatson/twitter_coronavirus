@@ -41,11 +41,11 @@ if "country_code" in args.input_path:
     plt.barh(topKeys, topValues)
     plt.xlabel('Number of Instances')
     plt.ylabel('Country')
-    plt.savefig(args.key+'_fig-country_code.png')
+    plt.savefig(args.key + '_fig-country_code.png')
 
 # build horizontal bar chart for .lang files
 if "lang" in args.input_path:
     plt.barh(topKeys, topValues)
     plt.xlabel('Number of Instances')
     plt.ylabel('Language')
-    plt.savefig(args.key+'_fig-lang.png')
+    plt.savefig(args.key + '_fig-lang.png')
