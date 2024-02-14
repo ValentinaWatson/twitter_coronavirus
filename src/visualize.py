@@ -47,7 +47,7 @@ if args.input_path[-1] == "g":
     ax.set_title('Instances of '#coronavirus' per language')
 
 # build horizontal bar chart for .country_code files
-else:
+if args.input_path[-1] == "e":
     ax.barh(range(numDatapoints), topValues, align='center')
     ax.set_yticks(range(numDatapoints))
     ax.set_yticklabels(topKeys)
