@@ -3,7 +3,7 @@
 # command line args
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('--input_path',required=True)
+parser.add_argument('--input_path', nargs='+', required=True)
 parser.add_argument('--key',required=True)
 parser.add_argument('--percent',action='store_true')
 args = parser.parse_args()
