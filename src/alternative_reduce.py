@@ -19,6 +19,7 @@ def load_data(input_paths):
     return total
 
 def plot_hashtags(counts_per_hashtag):
+    print("Counts per hashtag:", counts_per_hashtag)
     # Sort the dictionary keys (days)
     sorted_days = sorted(counts_per_hashtag.keys())
     
