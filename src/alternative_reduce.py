@@ -19,9 +19,12 @@ def load_data(input_paths):
     return total
 
 def plot_hashtags(counts_per_hashtag):
+    # Sort the dictionary keys (days)
     sorted_days = sorted(counts_per_hashtag.keys())
     
     for hashtag, counts in counts_per_hashtag.items():
+        print(f"Hashtag: {hashtag}, Counts: {counts}")
+        # Extract the counts for the current hashtag and sort them based on the corresponding days
         sorted_counts = [counts[day] for day in sorted_days]
         plt.plot(sorted_days, sorted_counts, label=hashtag)
     
@@ -30,6 +33,7 @@ def plot_hashtags(counts_per_hashtag):
     plt.title('Number of Occurrences of Hashtags Over Time')
     plt.legend()
     plt.savefig('hashtags_over_time.png')
+
 
 def main():
     parser = argparse.ArgumentParser()
