@@ -3,9 +3,8 @@
 # command line args
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('--input_path', nargs='+', required=True)
-parser.add_argument('--key',required=True)
-parser.add_argument('--percent',action='store_true')
+parser.add_argument('--input_path',nargs='+',required=True)
+parser.add_argument('--output_path',required=True)
 args = parser.parse_args()
 
 # imports
