@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 
 # combine values of each hashtag in each day's file
 hashtagDict = defaultdict(lambda: Counter())
-for dayFile in args.input_paths:
+for dayFile in args.input_path:
   with open(dayFile) as f:
     data = json.load(f)
     for hashtag, country_counts in data.items():
