@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # command line args
 import argparse
 parser = argparse.ArgumentParser()
@@ -18,22 +16,21 @@ import matplotlib.pyplot as plt
 
 # combine values of each hashtag in each day's file
 hashtagDict = defaultdict(lambda: Counter())
-yAxisPoints = []
-xAxisPoints = []
 for dayFile in args.input_paths:
   with open(dayFile) as f:
     data = json.load(f)
     for hashtag, country_counts in data.items():
       countryCombine = sum(country_counts.values())
-      hashtagDict[hashtag] += countryCombine
-    yAxisPoints.append(hashtagDict[hashtag])
-    xAxisPoints.append(dayFile[10:18])
-    
-# traverse through each counted file and find the most popular hashtags
+      hashtagDict[hashtag].append(countryCombine)
 
+# traverse through each counted file and plot the hashtags
+for hashtag, counts_per_day in hashtagDict.items():
+    plt.plot(range(1, len(counts_per_day) + 1), counts_per_day, label=hashtag)
 
-# plot them
+plt.xlabel('Days')
+plt.ylabel('Number of Occurrences')
+plt.title('Number of Occurrences of Hashtags Over Time')
+plt.legend()
 
-
-
-
+# save the plot
+plt.savefig('hashtags_over_time.png')
