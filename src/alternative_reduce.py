@@ -6,6 +6,9 @@ import json
 from collections import Counter, defaultdict
 import matplotlib.pyplot as plt
 
+import matplotlib
+matplotlib.use('Agg')
+
 def load_data(input_paths):
     total = Counter()
     for path in input_paths:
