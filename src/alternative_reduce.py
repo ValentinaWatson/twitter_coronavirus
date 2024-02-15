@@ -10,22 +10,18 @@ from collections import Counter, defaultdict
 import matplotlib.pyplot as plt
 
 def load_data(input_paths):
-    total = Counter()
+    total = defaultdict(lambda: Counter())
     for path in input_paths:
         with open(path) as f:
             data = json.load(f)
-            for counts_per_day in data.values():
-                total.update(counts_per_day)
+            for hashtag, counts_per_day in data.items():
+                total[hashtag].update(counts_per_day)
     return total
 
 def plot_hashtags(counts_per_hashtag):
-    print("Counts per hashtag:", counts_per_hashtag)
-    # Sort the dictionary keys (days)
     sorted_days = sorted(counts_per_hashtag.keys())
     
     for hashtag, counts in counts_per_hashtag.items():
-        print(f"Hashtag: {hashtag}, Counts: {counts}")
-        # Extract the counts for the current hashtag and sort them based on the corresponding days
         sorted_counts = [counts[day] for day in sorted_days]
         plt.plot(sorted_days, sorted_counts, label=hashtag)
     
