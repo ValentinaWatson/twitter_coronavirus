@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
+import matplotlib
+matplotlib.use('Agg')
+
 import argparse
 import os
 import json
 from collections import Counter, defaultdict
 import matplotlib.pyplot as plt
-
-import matplotlib
-matplotlib.use('Agg')
 
 def load_data(input_paths):
     total = Counter()
