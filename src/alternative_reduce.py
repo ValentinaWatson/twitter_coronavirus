@@ -51,11 +51,10 @@ def plot_hashtags(hashtag_counts, hashtag):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_paths', nargs='+', required=True)
-    parser.add_argument('--hashtag', required=True, help='Hashtag to plot')
     args = parser.parse_args()
 
     counts_per_hashtag = load_data(args.input_paths)
-    plot_hashtags(counts_per_hashtag, args.hashtag)
+    plot_hashtags(counts_per_hashtag)
 
 if __name__ == "__main__":
     main()
