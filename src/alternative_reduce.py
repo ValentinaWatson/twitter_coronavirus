@@ -28,23 +28,20 @@ def load_data(input_paths):
     
     return hashtag_counts
 
-def plot_hashtags(hashtag_counts, hashtag):
+def plot_hashtags(counts_per_hashtag):
     """
-    Plot the change in frequency of a single hashtag throughout the years.
+    Plot the change in frequency of hashtags throughout the years.
     """
-    counts_per_day = hashtag_counts.get(hashtag, {})
-    if not counts_per_day:
-        print(f"No data found for hashtag: {hashtag}")
-        return
+    for hashtag, counts_per_day in counts_per_hashtag.items():
+        days = sorted(counts_per_day.keys())
+        counts = [counts_per_day[day] for day in days]
 
-    days = sorted(counts_per_day.keys())
-    counts = [counts_per_day[day] for day in days]
-
-    plt.plot(days, counts)
+        plt.plot(days, counts, label=hashtag)
 
     plt.xlabel('Day of the Year')
     plt.ylabel('Number of Tweets')
-    plt.title(f'Change in Frequency of #{hashtag} Over Time')
+    plt.title('Change in Frequency of Hashtags Over Time')
+    plt.legend()
 
     plt.savefig('hashtags_over_time.png')
 
