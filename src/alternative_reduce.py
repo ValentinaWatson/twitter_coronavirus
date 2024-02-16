@@ -32,18 +32,20 @@ def load_data(input_paths):
 
 def plot_hashtags(hashtag_counts):
     """
-    Plot tweet counts per hashtag per day.
+    Plot the number of tweets for each hashtag over time.
     """
     for hashtag, counts_per_day in hashtag_counts.items():
-        days = list(map(int, counts_per_day.keys()))
-        counts = list(counts_per_day.values())
-        plt.plot(days, counts, label=hashtag)
+        days = sorted(counts_per_day.keys())
+        counts = [counts_per_day[day] for day in days]
+        plt.plot(days, counts, label=hashtag)  # Add label for legend
 
     plt.xlabel('Day of the Year')
     plt.ylabel('Number of Tweets')
-    plt.title('Number of Tweets Using Hashtags Over Time')
-    plt.legend()
-    plt.show()
+    plt.title('Number of Tweets for Each Hashtag Over Time')
+    plt.legend()  # Add legend
+
+    plt.show()  # Display the plot
+
 
 
 def main():
