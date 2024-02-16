@@ -83,5 +83,6 @@ def main():
     counts_per_hashtag, hashtags = load_data(args.input_paths)
     plot_hashtags(counts_per_hashtag, hashtags)
 
+
 if __name__ == "__main__":
     main()
