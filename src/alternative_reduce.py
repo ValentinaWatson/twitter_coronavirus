@@ -21,6 +21,7 @@ def load_data(input_paths):
 def plot_hashtags(counts_per_hashtag):
     days = range(1, len(next(iter(counts_per_hashtag.values()))) + 1)
     for hashtag, counts in counts_per_hashtag.items():
+        print(f"Hashtag: {hashtag}, Counts Length: {len(counts)}")
         plt.plot(days, list(counts), label=hashtag)
 
     plt.xlabel('Days')
