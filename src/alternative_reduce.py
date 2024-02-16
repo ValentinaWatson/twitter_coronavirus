@@ -28,36 +28,34 @@ def load_data(input_paths):
     
     return hashtag_counts
 
-
-
-def plot_hashtags(hashtag_counts):
+def plot_hashtags(hashtag_counts, hashtag):
     """
-    Plot the number of tweets for each hashtag over time.
+    Plot the change in frequency of a single hashtag throughout the years.
     """
-    labels = []  # List to store labels for legend
-    for hashtag, counts_per_day in hashtag_counts.items():
-        days = sorted(counts_per_day.keys())
-        counts = [counts_per_day[day] for day in days]
-        plt.plot(days, counts)
-        labels.append(f'#{hashtag}')
+    counts_per_day = hashtag_counts.get(hashtag, {})
+    if not counts_per_day:
+        print(f"No data found for hashtag: {hashtag}")
+        return
+
+    days = sorted(counts_per_day.keys())
+    counts = [counts_per_day[day] for day in days]
+
+    plt.plot(days, counts)
 
     plt.xlabel('Day of the Year')
     plt.ylabel('Number of Tweets')
-    plt.title('Number of Tweets for Each Hashtag Over Time')
-    plt.legend(labels)  
+    plt.title(f'Change in Frequency of #{hashtag} Over Time')
+
     plt.savefig('hashtags_over_time.png')
 
-
 def main():
-    parser = argparse.ArgumentParser(description="Plot tweet counts for specified hashtags.")
-    parser.add_argument('--input_paths', nargs='+', required=True, help="List of input paths containing tweet data.")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input_paths', nargs='+', required=True)
+    parser.add_argument('--hashtag', required=True, help='Hashtag to plot')
     args = parser.parse_args()
 
-    # Load data from input paths
-    hashtag_counts = load_data(args.input_paths)
-
-    # Plot tweet counts per hashtag per day
-    plot_hashtags(hashtag_counts)
+    counts_per_hashtag = load_data(args.input_paths)
+    plot_hashtags(counts_per_hashtag, args.hashtag)
 
 if __name__ == "__main__":
     main()
