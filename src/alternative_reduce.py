@@ -16,6 +16,7 @@ def load_data(input_paths):
     hashtag_counts = defaultdict(lambda: defaultdict(int))
     
     for path in input_paths:
+        print(f"Processing input path: {path}")
         with open(path) as f:
             data = json.load(f)
             for day, hashtags in data.items():
