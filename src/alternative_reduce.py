@@ -39,6 +39,8 @@ def plot_hashtags(counts_per_hashtag):
         days = sorted(counts_per_day.keys())
         counts = [counts_per_day[day] for day in days]
 
+        print(f'Hashtag: {hashtag}, Counts: {counts}')  # Debugging statement
+
         line, = plt.plot(days, counts)  # Store line object
         lines.append(line)  # Add line to list
 
@@ -52,6 +54,7 @@ def plot_hashtags(counts_per_hashtag):
     plt.legend(lines, labels)
 
     plt.savefig('hashtags_over_time.png')
+    plt.show()  # Display the plot
 
 def main():
     parser = argparse.ArgumentParser()
