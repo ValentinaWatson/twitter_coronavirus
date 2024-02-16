@@ -34,6 +34,7 @@ def load_data(input_paths):
     
     return hashtag_counts
 
+
 def plot_hashtags(counts_per_hashtag):
     """
     Plot the change in frequency of hashtags throughout the years.
