@@ -32,6 +32,8 @@ def plot_hashtags(counts_per_hashtag):
     days = range(1, max_length + 1)  # Ensure days cover the entire range of data
     
     for hashtag, counts in counts_per_hashtag.items():
+        # Ensure counts cover all days, fill missing data with zeros
+        counts += [0] * (max_length - len(counts))
         plt.plot(days, counts, label=hashtag)
 
     plt.xlabel('Days')
@@ -40,6 +42,7 @@ def plot_hashtags(counts_per_hashtag):
     plt.legend()
 
     plt.savefig('hashtags_over_time.png')
+
 
 def main():
     parser = argparse.ArgumentParser()
