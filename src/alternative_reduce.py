@@ -37,7 +37,7 @@ def plot_hashtags(hashtag_counts):
     for hashtag, counts_per_day in hashtag_counts.items():
         days = sorted(counts_per_day.keys())
         counts = [counts_per_day[day] for day in days]
-        plt.plot(days, counts, label=hashtag)  # Add label for legend
+        plt.plot(days, counts, label=f'#{hashtag}')  # Add label for legend
 
     plt.xlabel('Day of the Year')
     plt.ylabel('Number of Tweets')
