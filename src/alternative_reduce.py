@@ -55,29 +55,25 @@ def plot_hashtags(counts_per_hashtag, hashtags):
     labels = []  # Store corresponding labels for legend
 
     for hashtag in hashtags:
-        counts_per_country = counts_per_hashtag.get(hashtag, {})
-        countries = sorted(counts_per_country.keys())
-        counts = [counts_per_country[country] for country in countries]
+        counts_per_country = counts_per_hashtag[hashtag]
+        days = sorted(counts_per_country.keys())
+        counts = [counts_per_country[day] for day in days]
 
         print(f'Hashtag: {hashtag}, Counts: {counts}')  # Debugging statement
 
-        line, = plt.plot(countries, counts)  # Store line object
+        line, = plt.plot(days, counts, label=f'#{hashtag}')  # Store line object
         lines.append(line)  # Add line to list
 
-        labels.append(f'#{hashtag}')  # Add label for the line
-
-    plt.xlabel('Country Code')
+    plt.xlabel('Day of the Year')
     plt.ylabel('Number of Tweets')
-    plt.title('Tweet Counts for Selected Hashtags by Country')
+    plt.title('Change in Frequency of Hashtags Over Time')
 
     # Add legend with lines and labels
-    plt.legend(lines, labels)
+    plt.legend()
 
-    plt.xticks(rotation=90)  # Rotate x-axis labels for better readability
-    plt.tight_layout()  # Adjust layout to prevent clipping of labels
-
-    plt.savefig('hashtags_by_country.png')
+    plt.savefig('hashtags_over_time.png')
     plt.show()  # Display the plot
+
 
 def main():
     parser = argparse.ArgumentParser()
