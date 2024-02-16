@@ -32,6 +32,16 @@ def load_data(input_paths):
     
     return hashtag_counts
 
+def extract_hashtags(data):
+    """
+    Extract unique hashtags from the loaded data.
+    """
+    hashtags = set()
+    for hashtags_by_country in data.values():
+        for hashtags_per_day in hashtags_by_country.values():
+            for hashtag in hashtags_per_day.keys():
+                hashtags.add(hashtag)
+    return hashtags
 
 def plot_hashtags(counts_per_hashtag, hashtags):
     """
@@ -68,11 +78,11 @@ def plot_hashtags(counts_per_hashtag, hashtags):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_paths', nargs='+', required=True)
-    parser.add_argument('--hashtags', nargs='+', required=True)
     args = parser.parse_args()
 
     counts_per_hashtag = load_data(args.input_paths)
-    plot_hashtags(counts_per_hashtag, args.hashtags)
+    hashtags = extract_hashtags(counts_per_hashtag)
+    plot_hashtags(counts_per_hashtag, hashtags)
 
 if __name__ == "__main__":
     main()
