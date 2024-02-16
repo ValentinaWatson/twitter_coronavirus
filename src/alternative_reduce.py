@@ -22,7 +22,7 @@ for dayFile in args.input_path:
     data = json.load(f)
     for hashtag, country_counts in data.items():
       countryCombine = sum(country_counts.values())
-      hashtagDict[hashtag] += (countryCombine)
+      hashtagDict[hashtag] += Counter({len(hashtagDict[hashtag]) + 1: countryCombine})
 
 # traverse through each counted file and plot the hashtags
 for hashtag, counts_per_day in hashtagDict.items():
