@@ -23,6 +23,8 @@ def load_data(input_paths):
             for hashtags_by_country in data.values():
                 for hashtags_per_day in hashtags_by_country.values():
                     for hashtag, counts_per_country in hashtags_per_day.items():
+                        if isinstance(counts_per_country, int):  # Skip non-dictionary entries
+                            continue
                         for country, count in counts_per_country.items():
                             hashtag_counts[hashtag][country] += count
                             hashtags.add(hashtag)
