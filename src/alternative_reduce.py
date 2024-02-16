@@ -14,23 +14,26 @@ def load_data(input_paths):
     Load data from input paths and aggregate tweet counts per hashtag per day.
     """
     hashtag_counts = defaultdict(lambda: defaultdict(int))
+    hashtags = set()
     
     for path in input_paths:
         print(f"Processing input path: {path}")
         with open(path) as f:
             data = json.load(f)
             for hashtags_by_country in data.values():
-                for hashtags in hashtags_by_country.values():
-                    for hashtag, counts_per_country in hashtags.items():
+                for hashtags_per_day in hashtags_by_country.values():
+                    for hashtag, counts_per_country in hashtags_per_day.items():
                         for country, count in counts_per_country.items():
                             hashtag_counts[hashtag][country] += count
+                            hashtags.add(hashtag)
     
     # Print the loaded data for debugging
     print("Loaded data:")
     for hashtag, counts_per_country in hashtag_counts.items():
         print(f"Hashtag: {hashtag}, Counts Length: {len(counts_per_country)}")
     
-    return hashtag_counts
+    return hashtag_counts, hashtags
+
 
 def extract_hashtags(data):
     """
@@ -80,8 +83,7 @@ def main():
     parser.add_argument('--input_paths', nargs='+', required=True)
     args = parser.parse_args()
 
-    counts_per_hashtag = load_data(args.input_paths)
-    hashtags = extract_hashtags(counts_per_hashtag)
+    counts_per_hashtag, hashtags = load_data(args.input_paths)
     plot_hashtags(counts_per_hashtag, hashtags)
 
 if __name__ == "__main__":
