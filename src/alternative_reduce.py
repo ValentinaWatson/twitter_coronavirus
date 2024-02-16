@@ -10,48 +10,47 @@ from collections import Counter, defaultdict
 import matplotlib.pyplot as plt
 
 def load_data(input_paths):
-    total = defaultdict(list)
-    max_length = 0  
+    """
+    Load data from input paths and aggregate tweet counts per hashtag per day.
+    """
+    hashtag_counts = defaultdict(lambda: defaultdict(int))
+    
     for path in input_paths:
         with open(path) as f:
             data = json.load(f)
-            for counts_per_day in data.values():
-                for hashtag, count in counts_per_day.items():
-                    total[hashtag].append(count)
-                max_length = max(max_length, len(counts_per_day))
-
-    for counts in total.values():
-        while len(counts) < max_length:
-            counts.append(0)
-
-    return total
-
-
-def plot_hashtags(counts_per_hashtag):
-    max_length = max(len(counts) for counts in counts_per_hashtag.values())
-    days = range(1, max_length + 1)  # Ensure days cover the entire range of data
+            for day, hashtags in data.items():
+                for hashtag, count in hashtags.items():
+                    hashtag_counts[hashtag][day] += count
     
-    for hashtag, counts in counts_per_hashtag.items():
-        # Ensure counts cover all days, fill missing data with zeros
-        counts += [0] * (max_length - len(counts))
+    return hashtag_counts
+
+
+def plot_hashtags(hashtag_counts):
+    """
+    Plot tweet counts per hashtag per day.
+    """
+    for hashtag, counts_per_day in hashtag_counts.items():
+        days = list(map(int, counts_per_day.keys()))
+        counts = list(counts_per_day.values())
         plt.plot(days, counts, label=hashtag)
 
-    plt.xlabel('Days')
-    plt.ylabel('Number of Occurrences')
-    plt.title('Number of Occurrences of Hashtags Over Time')
+    plt.xlabel('Day of the Year')
+    plt.ylabel('Number of Tweets')
+    plt.title('Number of Tweets Using Hashtags Over Time')
     plt.legend()
-
-    plt.savefig('hashtags_over_time.png')
+    plt.show()
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--input_paths', nargs='+', required=True)
-    parser.add_argument('--output_path', required=True)
+    parser = argparse.ArgumentParser(description="Plot tweet counts for specified hashtags.")
+    parser.add_argument('--input_paths', nargs='+', required=True, help="List of input paths containing tweet data.")
     args = parser.parse_args()
 
-    counts_per_hashtag = load_data(args.input_paths)
-    plot_hashtags(counts_per_hashtag)
+    # Load data from input paths
+    hashtag_counts = load_data(args.input_paths)
+
+    # Plot tweet counts per hashtag per day
+    plot_hashtags(hashtag_counts)
 
 if __name__ == "__main__":
     main()
