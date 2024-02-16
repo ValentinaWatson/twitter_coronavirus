@@ -14,24 +14,25 @@ def load_data(input_paths):
     Load data from input paths and aggregate tweet counts per hashtag per day.
     """
     hashtag_counts = defaultdict(lambda: defaultdict(int))
-    hashtags = set()
+    hashtags = set()  # Store unique hashtags
     
     for path in input_paths:
         print(f"Processing input path: {path}")
         with open(path) as f:
             data = json.load(f)
-            for hashtags_per_day in data.values():
+            for day, hashtags_per_day in data.items():
+                try:
+                    day_int = int(day)
+                except ValueError:
+                    continue  # Skip keys that cannot be converted to integers
                 for hashtag, counts_per_country in hashtags_per_day.items():
-                    if isinstance(counts_per_country, int):  # Skip non-dictionary entries
-                        continue
-                    for country, count in counts_per_country.items():
-                        hashtag_counts[hashtag][country] += count
-                        hashtags.add(hashtag)
+                    hashtag_counts[hashtag][day_int] += counts_per_country
+                    hashtags.add(hashtag)
     
     # Print the loaded data for debugging
     print("Loaded data:")
-    for hashtag, counts_per_country in hashtag_counts.items():
-        print(f"Hashtag: {hashtag}, Counts Length: {len(counts_per_country)}")
+    for hashtag, counts_per_day in hashtag_counts.items():
+        print(f"Hashtag: {hashtag}, Counts Length: {len(counts_per_day)}")
     
     return hashtag_counts, hashtags
 
