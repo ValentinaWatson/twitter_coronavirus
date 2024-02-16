@@ -19,10 +19,15 @@ def load_data(input_paths):
         with open(path) as f:
             data = json.load(f)
             for day, hashtags in data.items():
+                try:
+                    day_int = int(day)
+                except ValueError:
+                    continue  # Skip keys that cannot be converted to integers
                 for hashtag, count in hashtags.items():
-                    hashtag_counts[hashtag][day] += count
+                    hashtag_counts[hashtag][day_int] += count
     
     return hashtag_counts
+
 
 
 def plot_hashtags(hashtag_counts):
