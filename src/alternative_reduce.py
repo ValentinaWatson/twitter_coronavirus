@@ -10,20 +10,22 @@ from collections import Counter, defaultdict
 import matplotlib.pyplot as plt
 
 def load_data(input_paths):
-    total = defaultdict(Counter)
-    max_length = 0 
+    total = defaultdict(list)
+    max_length = 0  
     for path in input_paths:
         with open(path) as f:
             data = json.load(f)
             for counts_per_day in data.values():
-                total.update(counts_per_day)
+                for hashtag, count in counts_per_day.items():
+                    total[hashtag].append(count)
                 max_length = max(max_length, len(counts_per_day))
-    
+
     for counts in total.values():
         while len(counts) < max_length:
             counts.append(0)
 
     return total
+
 
 def plot_hashtags(counts_per_hashtag):
     days = range(1, len(next(iter(counts_per_hashtag.values()))) + 1)
