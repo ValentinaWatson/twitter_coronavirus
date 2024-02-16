@@ -28,9 +28,11 @@ def load_data(input_paths):
 
 
 def plot_hashtags(counts_per_hashtag):
-    days = range(1, len(next(iter(counts_per_hashtag.values()))) + 1)
+    max_length = max(len(counts) for counts in counts_per_hashtag.values())
+    days = range(1, max_length + 1)  # Ensure days cover the entire range of data
+    
     for hashtag, counts in counts_per_hashtag.items():
-        plt.plot(days, list(counts), label=hashtag)
+        plt.plot(days, counts, label=hashtag)
 
     plt.xlabel('Days')
     plt.ylabel('Number of Occurrences')
