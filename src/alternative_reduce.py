@@ -53,12 +53,11 @@ def plot_hashtags(counts_per_hashtag, hashtags):
     Plot the change in frequency of hashtags throughout the years.
     """
     lines = []  # Store lines for legend
-    labels = []  # Store corresponding labels for legend
 
     for hashtag in hashtags:
-        counts_per_country = counts_per_hashtag[hashtag]
-        days = sorted(counts_per_country.keys())
-        counts = [counts_per_country[day] for day in days]
+        counts_per_day = counts_per_hashtag[hashtag]
+        days = sorted(counts_per_day.keys())
+        counts = [counts_per_day[day] for day in days]
 
         print(f'Hashtag: {hashtag}, Counts: {counts}')  # Debugging statement
 
@@ -74,6 +73,7 @@ def plot_hashtags(counts_per_hashtag, hashtags):
 
     plt.savefig('hashtags_over_time.png')
     plt.show()  # Display the plot
+
 
 
 def main():
