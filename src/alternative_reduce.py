@@ -20,14 +20,13 @@ def load_data(input_paths):
         print(f"Processing input path: {path}")
         with open(path) as f:
             data = json.load(f)
-            for hashtags_by_country in data.values():
-                for hashtags_per_day in hashtags_by_country.values():
-                    for hashtag, counts_per_country in hashtags_per_day.items():
-                        if isinstance(counts_per_country, int):  # Skip non-dictionary entries
-                            continue
-                        for country, count in counts_per_country.items():
-                            hashtag_counts[hashtag][country] += count
-                            hashtags.add(hashtag)
+            for hashtags_per_day in data.values():
+                for hashtag, counts_per_country in hashtags_per_day.items():
+                    if isinstance(counts_per_country, int):  # Skip non-dictionary entries
+                        continue
+                    for country, count in counts_per_country.items():
+                        hashtag_counts[hashtag][country] += count
+                        hashtags.add(hashtag)
     
     # Print the loaded data for debugging
     print("Loaded data:")
