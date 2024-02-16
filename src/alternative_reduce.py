@@ -26,7 +26,9 @@ for dayFile in args.input_path:
 
 # traverse through each counted file and plot the hashtags
 for hashtag, counts_per_day in hashtagDict.items():
-    plt.plot(range(1, len(counts_per_day) + 1), counts_per_day, label=hashtag)
+    x_values = list(range(1, len(counts_per_day) + 1))
+    y_values = list(counts_per_day.values())
+    plt.plot(x_values, y_values, label=hashtag)
 
 plt.xlabel('Days')
 plt.ylabel('Number of Occurrences')
