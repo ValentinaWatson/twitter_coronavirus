@@ -32,16 +32,24 @@ def plot_hashtags(counts_per_hashtag):
     """
     Plot the change in frequency of hashtags throughout the years.
     """
+    lines = []  # Store lines for legend
+    labels = []  # Store corresponding labels for legend
+
     for hashtag, counts_per_day in counts_per_hashtag.items():
         days = sorted(counts_per_day.keys())
         counts = [counts_per_day[day] for day in days]
 
-        plt.plot(days, counts, label=hashtag)
+        line, = plt.plot(days, counts)  # Store line object
+        lines.append(line)  # Add line to list
+
+        labels.append(f'#{hashtag}')  # Add label for the line
 
     plt.xlabel('Day of the Year')
     plt.ylabel('Number of Tweets')
     plt.title('Change in Frequency of Hashtags Over Time')
-    plt.legend()
+
+    # Add legend with lines and labels
+    plt.legend(lines, labels)
 
     plt.savefig('hashtags_over_time.png')
 
