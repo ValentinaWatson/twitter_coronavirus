@@ -26,6 +26,11 @@ def load_data(input_paths):
                 for hashtag, count in hashtags.items():
                     hashtag_counts[hashtag][day_int] += count
     
+    # Print the loaded data for debugging
+    print("Loaded data:")
+    for hashtag, counts_per_day in hashtag_counts.items():
+        print(f"Hashtag: {hashtag}, Counts Length: {len(counts_per_day)}")
+    
     return hashtag_counts
 
 def plot_hashtags(counts_per_hashtag):
