@@ -6,73 +6,72 @@ matplotlib.use('Agg')
 import argparse
 import os
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 import matplotlib.pyplot as plt
 
-def load_data(input_folder):
+def load_data(input_paths):
     """
-    Load data from input folder and aggregate tweet counts per hashtag per day.
+    Load data from input paths and aggregate tweet counts per hashtag per day.
     """
     hashtag_counts = defaultdict(lambda: defaultdict(int))
-
-    for filename in os.listdir(input_folder):
-        if filename.endswith(".json"):
-            path = os.path.join(input_folder, filename)
-            print(f"Processing input file: {path}")
-            with open(path) as f:
-                data = json.load(f)
-                for day, hashtags in data.items():
-                    try:
-                        day_int = int(day)
-                    except ValueError:
-                        continue  # Skip keys that cannot be converted to integers
-                    for hashtag, count in hashtags.items():
-                        hashtag_counts[hashtag][day_int] += count
-
+    
+    for path in input_paths:
+        print(f"Processing input path: {path}")
+        with open(path) as f:
+            data = json.load(f)
+            for hashtags_by_country in data.values():
+                for hashtags in hashtags_by_country.values():
+                    for hashtag, counts_per_country in hashtags.items():
+                        for country, count in counts_per_country.items():
+                            hashtag_counts[hashtag][country] += count
+    
     # Print the loaded data for debugging
     print("Loaded data:")
-    for hashtag, counts_per_day in hashtag_counts.items():
-        print(f"Hashtag: {hashtag}, Counts Length: {len(counts_per_day)}")
-
+    for hashtag, counts_per_country in hashtag_counts.items():
+        print(f"Hashtag: {hashtag}, Counts Length: {len(counts_per_country)}")
+    
     return hashtag_counts
 
 
 def plot_hashtags(counts_per_hashtag, hashtags):
     """
-    Plot the change in frequency of specified hashtags throughout the year.
+    Plot the change in frequency of hashtags throughout the years.
     """
     lines = []  # Store lines for legend
     labels = []  # Store corresponding labels for legend
 
     for hashtag in hashtags:
-        counts_per_day = counts_per_hashtag.get(hashtag, {})
-        days = sorted(counts_per_day.keys())
-        counts = [counts_per_day[day] for day in days]
+        counts_per_country = counts_per_hashtag.get(hashtag, {})
+        countries = sorted(counts_per_country.keys())
+        counts = [counts_per_country[country] for country in countries]
 
         print(f'Hashtag: {hashtag}, Counts: {counts}')  # Debugging statement
 
-        line, = plt.plot(days, counts)  # Store line object
+        line, = plt.plot(countries, counts)  # Store line object
         lines.append(line)  # Add line to list
 
         labels.append(f'#{hashtag}')  # Add label for the line
 
-    plt.xlabel('Day of the Year')
+    plt.xlabel('Country Code')
     plt.ylabel('Number of Tweets')
-    plt.title('Change in Frequency of Specified Hashtags Over Time')
+    plt.title('Tweet Counts for Selected Hashtags by Country')
 
     # Add legend with lines and labels
     plt.legend(lines, labels)
 
-    plt.savefig('specified_hashtags_over_time.png')
+    plt.xticks(rotation=90)  # Rotate x-axis labels for better readability
+    plt.tight_layout()  # Adjust layout to prevent clipping of labels
+
+    plt.savefig('hashtags_by_country.png')
     plt.show()  # Display the plot
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input_folder', required=True)
+    parser.add_argument('--input_paths', nargs='+', required=True)
     parser.add_argument('--hashtags', nargs='+', required=True)
     args = parser.parse_args()
 
-    counts_per_hashtag = load_data(args.input_folder)
+    counts_per_hashtag = load_data(args.input_paths)
     plot_hashtags(counts_per_hashtag, args.hashtags)
 
 if __name__ == "__main__":
